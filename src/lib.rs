@@ -638,6 +638,7 @@ mod util;
 
 pub mod build;
 pub mod cert;
+pub mod message_trailers_array;
 pub mod oid_array;
 pub mod opts;
 pub mod string_array;
@@ -660,6 +661,7 @@ mod indexer;
 mod mempack;
 mod merge;
 mod message;
+mod message_trailer;
 mod note;
 mod object;
 mod odb;

@@ -110,6 +110,13 @@ pub struct git_oid {
 }
 
 #[repr(C)]
+#[derive(Copy, Clone)]
+pub struct git_message_trailer {
+    pub key: *mut c_char,
+    pub value: *mut c_char,
+}
+
+#[repr(C)]
 #[derive(Copy)]
 pub struct git_strarray {
     pub strings: *mut *mut c_char,
@@ -129,6 +136,18 @@ pub struct git_oidarray {
 }
 impl Clone for git_oidarray {
     fn clone(&self) -> git_oidarray {
+        *self
+    }
+}
+
+#[repr(C)]
+#[derive(Copy)]
+pub struct git_message_trailer_array {
+    pub trailers: *mut git_message_trailer,
+    pub count: size_t,
+}
+impl Clone for git_message_trailer_array {
+    fn clone(&self) -> git_message_trailer_array {
         *self
     }
 }
@@ -2150,6 +2169,11 @@ extern "C" {
 
     // oidarray
     pub fn git_oidarray_free(array: *mut git_oidarray);
+
+    // message_trailers_array
+    pub fn git_message_trailer_array_free(array: *mut git_message_trailer_array);
+
+    pub fn git_message_trailers(array: *mut git_message_trailer_array, message: *const c_char) -> c_int;
 
     // signature
     pub fn git_signature_default(out: *mut *mut git_signature, repo: *mut git_repository) -> c_int;
